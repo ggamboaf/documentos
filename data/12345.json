@@ -11,6 +11,10 @@
             "nombre": "Factura XML",
             "url": "./archivos/12345/factura.xml"
         },
+                {
+            "nombre": "Factura XMLerer",
+            "url": "./archivos/12345/factura.xml"
+        },
         {
             "nombre": "Orden de Compra",
             "url": "./archivos/12345/orden_compra.pdf"
