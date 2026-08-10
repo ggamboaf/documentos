@@ -1,87 +1,220 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title>Documentos</title>
+  <meta charset="utf-8">
+  <!-- Esta etiqueta es crucial para que funcione el diseño responsive en móviles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentos</title>
 
-    <style>
-        body {
-            font-family: Arial;
-            margin: 30px;
-        }
+  <style>
+    :root {
+      --primary: #1976d2;
+      --primary-hover: #1565c0;
+      --bg-color: #f3f4f6;
+      --card-bg: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+    }
 
-        .btn {
-            display: block;
-            width: 250px;
-            padding: 10px;
-            margin: 10px 0;
-            text-decoration: none;
-            background: #1976d2;
-            color: white;
-            text-align: center;
-            border-radius: 5px;
-        }
-    </style>
+    /* Estilos base (Móvil Primero / Mobile First) */
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 1rem; /* Padding reducido para móviles */
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .container {
+      background-color: var(--card-bg);
+      width: 100%;
+      max-width: 500px;
+      padding: 1.5rem; /* Padding interno reducido para ganar espacio en pantallas pequeñas */
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      align-self: flex-start;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 1.25rem; /* Fuente un poco más pequeña en móviles */
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 1.25rem;
+      color: var(--text-main);
+      border-bottom: 2px solid var(--bg-color);
+      padding-bottom: 0.75rem;
+    }
+
+    .meta-info {
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column; /* Apila los elementos uno sobre otro en móviles */
+      gap: 0.75rem;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column; /* La etiqueta arriba, el valor abajo en pantallas chicas */
+      font-size: 0.95rem;
+      background: var(--bg-color);
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+
+    .meta-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .meta-value {
+      font-weight: 500;
+      margin-top: 0.25rem;
+      word-break: break-word; /* Evita que textos largos rompan el diseño */
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.75rem;
+      text-decoration: none;
+      background-color: var(--primary);
+      color: white;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(25, 118, 210, 0.25);
+    }
+
+    #titulo:empty, #cliente:empty, #fecha:empty {
+      display: inline-block;
+      min-width: 100px;
+      height: 1.2em;
+      background: #e5e7eb;
+      border-radius: 4px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Breakpoint para pantallas medianas y grandes (Tablets y Desktop) */
+    @media (min-width: 480px) {
+      body {
+        padding: 2rem 1rem;
+      }
+      
+      .container {
+        padding: 2.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .meta-item {
+        flex-direction: row; /* En pantallas grandes, etiqueta y valor van en la misma línea */
+        justify-content: space-between;
+        align-items: center;
+        background: transparent;
+        padding: 0;
+      }
+
+      .meta-label {
+        font-size: 0.95rem;
+        text-transform: none;
+        letter-spacing: normal;
+      }
+
+      .meta-value {
+        margin-top: 0;
+      }
+    }
+  </style>
 
 </head>
 
 <body>
 
-<h1 id="titulo"></h1>
+  <div class="container">
+    <h1 id="titulo"></h1>
+    
+    <div class="meta-info">
+      <div class="meta-item">
+        <span class="meta-label">Cliente</span>
+        <span class="meta-value" id="cliente"></span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Fecha</span>
+        <span class="meta-value" id="fecha"></span>
+      </div>
+    </div>
 
-<p>
-    <b>Cliente:</b>
-    <span id="cliente"></span>
-</p>
+    <div id="archivos"></div>
+  </div>
 
-<p>
-    <b>Fecha:</b>
-    <span id="fecha"></span>
-</p>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const documento = params.get("doc");
 
-<div id="archivos">
+    if (documento) {
+      fetch(`data/${documento}.json`)
+        .then(res => {
+          if (!res.ok) throw new Error("Documento no encontrado");
+          return res.json();
+        })
+        .then(data => {
+          document.getElementById("titulo").innerText = "Documento " + (data.documento || documento);
+          document.getElementById("cliente").innerText = data.cliente || "Desconocido";
+          document.getElementById("fecha").innerText = data.fecha || "-";
 
-</div>
-
-<script>
-
-const params = new URLSearchParams(window.location.search);
-
-const documento = params.get("doc");
-
-fetch(`data/${documento}.json`)
-.then(res => res.json())
-.then(data => {
-
-    document.getElementById("titulo").innerText =
-        "Documento " + data.documento;
-
-    document.getElementById("cliente").innerText =
-        data.cliente;
-
-    document.getElementById("fecha").innerText =
-        data.fecha;
-
-    const div = document.getElementById("archivos");
-
-    data.archivos.forEach(a => {
-
-        const link = document.createElement("a");
-
-        link.href = a.url;
-
-        link.className = "btn";
-
-        link.innerText = a.nombre;
-
-        link.target = "_blank";
-
-        div.appendChild(link);
-    });
-});
-
-</script>
+          const div = document.getElementById("archivos");
+          
+          if (data.archivos && data.archivos.length > 0) {
+            data.archivos.forEach(a => {
+              const link = document.createElement("a");
+              link.href = a.url;
+              link.className = "btn";
+              link.innerText = a.nombre;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer"; 
+              div.appendChild(link);
+            });
+          } else {
+            div.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>No hay archivos disponibles.</p>";
+          }
+        })
+        .catch(err => {
+          document.getElementById("titulo").innerText = "Error al cargar";
+          document.getElementById("cliente").innerText = "-";
+          document.getElementById("fecha").innerText = "-";
+          console.error(err);
+        });
+    } else {
+      document.getElementById("titulo").innerText = "Documento no especificado";
+      document.getElementById("cliente").innerText = "-";
+      document.getElementById("fecha").innerText = "-";
+    }
+  </script>
 
 </body>
 </html>
