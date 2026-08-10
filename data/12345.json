@@ -1,0 +1,19 @@
+{
+    "documento": "12345",
+    "cliente": "Cliente ABC",
+    "fecha": "2026-08-10",
+    "archivos": [
+        {
+            "nombre": "Factura PDF",
+            "url": "./archivos/12345/factura.pdf"
+        },
+        {
+            "nombre": "Factura XML",
+            "url": "./archivos/12345/factura.xml"
+        },
+        {
+            "nombre": "Orden de Compra",
+            "url": "./archivos/12345/orden_compra.pdf"
+        }
+    ]
+}
