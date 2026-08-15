@@ -203,9 +203,10 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const documento = params.get("doc");
+    const cliente = params.get("cliente");
 
     if (documento) {
-      fetch(`data/${documento}.json`)
+      fetch(`data/${cliente}/${documento}.json`)
         .then(res => {
           if (!res.ok) throw new Error("Documento no encontrado");
           return res.json();
