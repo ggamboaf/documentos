@@ -1,0 +1,19 @@
+{
+    "documento": "50609102600060195039200100002010000000001170042918",
+    "cliente": "CLARO CR TELECOMUNICACIONES SOCIEDAD ANONIMA",
+    "fecha": "2026-10-06",
+    "archivos": [
+        {
+            "nombre": "Factura PDF",
+            "url": "./archivos/ferreteriali/50609102600060195039200100002010000000001170042918/PDF_50609102600060195039200100002010000000001170042918.pdf"
+        },
+        {
+            "nombre": "Factura electr\u00f3nica XML",
+            "url": "./archivos/ferreteriali/50609102600060195039200100002010000000001170042918/FE_50609102600060195039200100002010000000001170042918.xml"
+        },
+        {
+            "nombre": "MH XML",
+            "url": "./archivos/ferreteriali/50609102600060195039200100002010000000001170042918/MH_50609102600060195039200100002010000000001170042918.xml"
+        }
+    ]
+}
